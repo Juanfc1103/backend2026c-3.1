@@ -9,6 +9,8 @@ import peliculasRouter from "./routes/peliculas.routes.js";
 import salasRouter from "./routes/salas.routes.js";
 import funcionesRouter from "./routes/funciones.routes.js";
 import ticketsRouter from "./routes/tickets.routes.js";
+import authRouter from "./routes/auth.routes.js";
+import usuariosRouter from "./routes/usuarios.routes.js";
 import reservacionesRouter from "./routes/reservaciones.routes.js";
 
 var app = express();
@@ -28,6 +30,8 @@ app.use("/peliculas", peliculasRouter);
 app.use("/salas", salasRouter);
 app.use("/funciones", funcionesRouter);
 app.use("/tickets", ticketsRouter);
+app.use("/auth", authRouter);
+app.use("/usuarios", usuariosRouter);
 app.use("/reservaciones", reservacionesRouter);
 
 // catch 404 and forward to error handler
