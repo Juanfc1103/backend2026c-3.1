@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1>Gestión de <%= title %></h1>
+    <% if (funciones.length === 0) { %>
+      <p>No hay funciones registradas.</p>
+    <% } else { %>
+      <ul>
+        <% funciones.forEach(f => { %>
+          <li>Función ID: <%= f.id %> - Película: <%= f.peliculaId %> - Sala: <%= f.salaId %> - Horario: <%= f.horario %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <a href="/">Volver al Inicio</a>
+  </body>
+</html>

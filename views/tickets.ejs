@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1>Gestión de <%= title %></h1>
+    <% if (tickets.length === 0) { %>
+      <p>No hay tickets registrados.</p>
+    <% } else { %>
+      <ul>
+        <% tickets.forEach(t => { %>
+          <li>Ticket ID: <%= t.id %> - Asiento: <%= t.asiento %> - Precio: $<%= t.precio %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <a href="/">Volver al Inicio</a>
+  </body>
+</html>

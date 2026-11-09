@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1>Gestión de <%= title %></h1>
+    <% if (reservaciones.length === 0) { %>
+      <p>No hay reservaciones registradas.</p>
+    <% } else { %>
+      <ul>
+        <% reservaciones.forEach(r => { %>
+          <li>Cliente: <%= r.cliente %> - Fecha: <%= r.fecha %> <%= r.ticketId ? '- Ticket ID: ' + r.ticketId : '(Sin ticket)' %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+    <a href="/">Volver al Inicio</a>
+  </body>
+</html>

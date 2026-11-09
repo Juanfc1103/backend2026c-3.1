@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Género</th>
+          <th>Duración</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% peliculas.forEach(p => { %>
+          <tr>
+            <td><%= p.id %></td>
+            <td><%= p.titulo %></td>
+            <td><%= p.genero %></td>
+            <td><%= p.duracion %></td>
+            <td>
+              <button onclick="editar('<%= p.id %>')">Editar</button>
+              <button onclick="eliminar('<%= p.id %>')">Eliminar</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <h2>Registrar nueva película</h2>
+    <form action="/peliculas/create" method="POST">
+      <input type="text" name="titulo" placeholder="Título" required />
+      <input type="text" name="genero" placeholder="Género" required />
+      <input type="number" name="duracion" placeholder="Duración" required />
+      <button type="submit">Registrar</button>
+    </form>
+    <a href="/">Volver</a>
+    <script>
+      async function eliminar(id) {
+        if (!confirm("Eliminar película?")) return;
+        await fetch("/peliculas/delete/" + id, { method: "DELETE" });
+        location.reload();
+      }
+      async function editar(id) {
+        const titulo = prompt("Nuevo título");
+        const genero = prompt("Nuevo género");
+        const duracion = prompt("Nueva duración");
+        await fetch("/peliculas/update/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ titulo, genero, duracion })
+        });
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
+
