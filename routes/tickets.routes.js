@@ -1,9 +1,10 @@
 import express from "express";
 import ticketsController from "../controllers/tickets.controller.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
     const response = await ticketsController.mostrarTickets();
     res.status(response.status).json({ data: response.data, message: response.message });
@@ -12,7 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     const response = await ticketsController.buscarPorId(req.params.id);
     res.status(response.status).json({ data: response.data, message: response.message });
@@ -21,7 +22,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", verifyToken, async (req, res) => {
   try {
     const response = await ticketsController.crear(req.body);
     res.status(response.status).json({ data: response.data, message: response.message });
@@ -30,7 +31,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", verifyToken, async (req, res) => {
   try {
     const response = await ticketsController.actualizar(req.body, req.params.id);
     res.status(response.status).json({ data: response.data, message: response.message });
@@ -39,7 +40,7 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
     const response = await ticketsController.eliminar(req.params.id);
     res.status(response.status).json({ data: response.data, message: response.message });
