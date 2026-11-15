@@ -1,6 +1,7 @@
-import express from "express";
+﻿import express from "express";
 import salasController from "../controllers/salas.controller.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/roles.middleware.js";
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/create", verifyToken, async (req, res) => {
+router.post("/create", verifyToken, authorizeRoles("admin"), async (req, res) => {
   try {
     const response = await salasController.crear(req.body);
     res.status(response.status).json({ data: response.data, message: response.message });
@@ -31,7 +32,7 @@ router.post("/create", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/update/:id", verifyToken, async (req, res) => {
+router.put("/update/:id", verifyToken, authorizeRoles("admin"), async (req, res) => {
   try {
     const response = await salasController.actualizar(req.body, req.params.id);
     res.status(response.status).json({ data: response.data, message: response.message });
@@ -40,7 +41,7 @@ router.put("/update/:id", verifyToken, async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", verifyToken, async (req, res) => {
+router.delete("/delete/:id", verifyToken, authorizeRoles("admin"), async (req, res) => {
   try {
     const response = await salasController.eliminar(req.params.id);
     res.status(response.status).json({ data: response.data, message: response.message });
