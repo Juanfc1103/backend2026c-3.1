@@ -8,6 +8,10 @@ class AuthController {
     if (!data || !data.nombre || !data.email || !data.password || !data.rol) {
       return { status: 400, data: null, message: "Faltan datos indispensables" };
     }
+    const rolesPermitidos = ["admin", "empleado", "cliente"];
+    if (!rolesPermitidos.includes(data.rol)) {
+      return { status: 400, data: null, message: "Rol inválido. Roles permitidos: admin, empleado, cliente" };
+    }
 
     const [existing] = await pool.query("SELECT id FROM usuarios WHERE email = ?", [data.email]);
     if (existing.length > 0) {
