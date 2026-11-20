@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/vistas/peliculas">Películas</a>
+      <a href="/vistas/login">Login</a>
+    </nav>
+    <h1>Registro de Usuario</h1>
+    <form id="registerForm">
+      <label>Nombre: <input type="text" name="nombre" required /></label><br/>
+      <label>Email: <input type="email" name="email" required /></label><br/>
+      <label>Contraseña: <input type="password" name="password" required /></label><br/>
+      <label>Rol:
+        <select name="rol" required>
+          <option value="cliente">cliente</option>
+          <option value="empleado">empleado</option>
+          <option value="admin">admin</option>
+        </select>
+      </label><br/>
+      <button type="submit">Registrar</button>
+    </form>
+    <div id="msg"></div>
+    <script>
+      document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        const res = await fetch('/auth/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+        const json = await res.json();
+        document.getElementById('msg').textContent = json.message;
+      });
+    </script>
+  </body>
+</html>

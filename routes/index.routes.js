@@ -11,6 +11,14 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Sistema de Cine" });
 });
 
+router.get("/vistas/login", (req, res) => {
+  res.render("login", { title: "Iniciar Sesión" });
+});
+
+router.get("/vistas/register", (req, res) => {
+  res.render("register", { title: "Registro" });
+});
+
 router.get("/vistas/peliculas", async (req, res) => {
   try {
     const response = await peliculasController.mostrarPeliculas();

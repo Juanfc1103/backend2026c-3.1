@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/vistas/peliculas">Películas</a>
+      <a href="/vistas/login">Login</a>
+      <a href="/vistas/register">Registro</a>
+    </nav>
+    <h1>Iniciar Sesión</h1>
+    <form id="loginForm">
+      <label>Email: <input type="email" name="email" required /></label><br/>
+      <label>Contraseña: <input type="password" name="password" required /></label><br/>
+      <button type="submit">Entrar</button>
+    </form>
+    <div id="msg"></div>
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        const res = await fetch('/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+        const json = await res.json();
+        document.getElementById('msg').textContent = json.message;
+        if (json.data && json.data.token) {
+          localStorage.setItem('token', json.data.token);
+          document.getElementById('msg').textContent += ' Token guardado.';
+        }
+      });
+    </script>
+  </body>
+</html>
