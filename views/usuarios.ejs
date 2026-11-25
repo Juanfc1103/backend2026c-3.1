@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% usuarios.forEach(u => { %>
+          <tr>
+            <td><%= u.id %></td>
+            <td><%= u.nombre %></td>
+            <td><%= u.email %></td>
+            <td><%= u.rol %></td>
+            <td>
+              <button onclick="editar('<%= u.id %>')">Editar</button>
+              <button onclick="eliminar('<%= u.id %>')">Eliminar</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <h2>Registrar nuevo usuario</h2>
+    <form action="/usuarios/create" method="POST">
+      <input type="text" name="nombre" placeholder="Nombre completo" required />
+      <input type="email" name="email" placeholder="Correo electrónico" required />
+      <input type="password" name="password" placeholder="Contraseña" required />
+      <select name="rol" required>
+        <option value="cliente">Cliente</option>
+        <option value="empleado">Empleado</option>
+        <option value="admin">Administrador</option>
+      </select>
+      <button type="submit">Registrar</button>
+    </form>
+    <a href="/">Volver</a>
+    <script>
+      async function eliminar(id) {
+        if (!confirm("¿Eliminar usuario?")) return;
+        const res = await fetch("/usuarios/delete/" + id, { method: "DELETE" });
+        const data = await res.json();
+        alert(data.message);
+        location.reload();
+      }
+      async function editar(id) {
+        const nombre = prompt("Nuevo nombre:");
+        if (!nombre) return;
+        const rol = prompt("Nuevo rol (admin, empleado, cliente):");
+        if (!rol) return;
+        const res = await fetch("/usuarios/update/" + id, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre, rol })
+        });
+        const data = await res.json();
+        alert(data.message);
+        location.reload();
+      }
+    </script>
+  </body>
+</html>

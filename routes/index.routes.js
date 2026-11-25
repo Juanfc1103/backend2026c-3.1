@@ -4,6 +4,7 @@ import salasController from "../controllers/salas.controller.js";
 import funcionesController from "../controllers/funciones.controller.js";
 import ticketsController from "../controllers/tickets.controller.js";
 import reservacionesController from "../controllers/reservaciones.controller.js";
+import usuariosController from "../controllers/usuarios.controller.js";
 
 const router = express.Router();
 
@@ -59,6 +60,15 @@ router.get("/vistas/reservaciones", async (req, res) => {
   try {
     const response = await reservacionesController.mostrarReservaciones();
     res.render("reservaciones", { title: "Reservaciones", reservaciones: response.data || [] });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+router.get("/vistas/usuarios", async (req, res) => {
+  try {
+    const response = await usuariosController.mostrarUsuarios();
+    res.render("usuarios", { title: "Usuarios", usuarios: response.data || [] });
   } catch (error) {
     res.status(500).send(error.message);
   }
